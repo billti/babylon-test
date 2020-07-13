@@ -10,7 +10,7 @@
 const babylonSrcPath = "https://cdn.babylonjs.com/babylon.js"
 const babylonMaterialsPath = "https://cdn.babylonjs.com/materialsLibrary/babylon.gridMaterial.js"
 
-let useGrid = false;
+let useGrid = true;
 
 function loadScript(src: string): Promise<unknown> {
   let result = new Promise( (resolve, reject) => {
@@ -45,6 +45,7 @@ loadButton.addEventListener("click", () => {
 
         var camera: BABYLON.ArcRotateCamera = new BABYLON.ArcRotateCamera("Camera", Math.PI / 2, Math.PI / 2, 2, BABYLON.Vector3.Zero(), scene);
         camera.attachControl(canvas, true);
+        camera.minZ = 0;
 
         var light1: BABYLON.HemisphericLight = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(1, 1, 0), scene);
 
@@ -85,7 +86,7 @@ loadButton.addEventListener("click", () => {
         function CreateGrid() {
         // Create the ground plane using a grid
         // See example at https://www.babylonjs-playground.com/#1UFGZH#12
-          ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 2, height: 2, subdivisions: 2}, scene);
+          ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 3, height: 3, subdivisions: 3}, scene);
           grid = new BABYLON.GridMaterial("grid", scene);
           grid.gridRatio = 0.1;
           grid.majorUnitFrequency = 5;
