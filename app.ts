@@ -5,8 +5,10 @@
 //
 // Note that you'd also need to add "babylonjs": "BABYLON" to the 'externals' in the webpack config.
 
-const babylonSrcPath = "/node_modules/babylonjs/babylon.max.js";
-const babylonMaterialsPath = "/node_modules/babylonjs-materials/babylonjs.materials.js";
+// const babylonSrcPath = "/node_modules/babylonjs/babylon.max.js";
+// const babylonMaterialsPath = "/node_modules/babylonjs-materials/babylonjs.materials.js";
+const babylonSrcPath = "https://cdn.babylonjs.com/babylon.js"
+const babylonMaterialsPath = "https://cdn.babylonjs.com/materialsLibrary/babylon.gridMaterial.js"
 
 let useGrid = false;
 
@@ -22,7 +24,7 @@ function loadScript(src: string): Promise<unknown> {
 }
 
 function loadBabylon() {
-  return loadScript(babylonSrcPath); // .then(() => loadScript(babylonMaterialsPath));
+  return loadScript(babylonSrcPath).then(() => loadScript(babylonMaterialsPath));
 }
 
 let loadButton = document.getElementById("loadButton") as HTMLButtonElement;
@@ -77,11 +79,15 @@ loadButton.addEventListener("click", () => {
 
         function CreateGrid() {
         // Create the ground plane using a grid
-          ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 2, height: 2}, scene);
+        // See example at https://www.babylonjs-playground.com/#1UFGZH#12
+          ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 2, height: 2, subdivisions: 2}, scene);
           grid = new BABYLON.GridMaterial("grid", scene);
           grid.gridRatio = 0.1;
           grid.majorUnitFrequency = 5;
-          grid.mainColor = new BABYLON.Color3(0.2, 0.2, 0.4);
+          grid.backFaceCulling = false;
+          grid.opacity = 0.98;
+          grid.mainColor = new BABYLON.Color3(1, 1, 1);
+          grid.lineColor = new BABYLON.Color3(1, 1, 1);
           ground.material = grid;
         }
 
@@ -95,7 +101,7 @@ loadButton.addEventListener("click", () => {
                 new BABYLON.Vector3(isX ? pos : -1, 0, isX ? -1 : pos),
                 new BABYLON.Vector3(isX ? pos :  1, 0, isX ?  1 : pos)
               ];
-              let lineColor = new BABYLON.Color4(0.5, 0.5, 1.0, (i % 5 == 0 ? 0.8 : 0.3))
+              let lineColor = new BABYLON.Color4(1, 1, 1.0, (i % 5 == 0 ? 0.8 : 0.3))
               var colors = [lineColor, lineColor];
               linesArray.push(BABYLON.MeshBuilder.CreateLines("", {points, colors}, useGrid ? null : scene));
             }

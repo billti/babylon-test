@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Babylon.js example",
   "scripts": {
-    "build": "webpack"
+    "build": "webpack",
+    "build:dev": "webpack --watch"
   },
   "keywords": [],
   "author": "Bill Ticehurst",
