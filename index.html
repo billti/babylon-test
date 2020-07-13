@@ -5,10 +5,16 @@
 </head>
 <body>
   <button id="loadButton">Load Scene</button>
-  <input type="checkbox" id="useGrid" name="useGrid" checked/>
-  <label for="useGrid">Use Grid</label>
-  <input type="checkbox" id="useDesert" name="useDesert"/>
-  <label for="useDesert">Use Desert</label>
+  <!-- <input type="checkbox" id="useGrid" name="useGrid" checked/>
+  <label for="useGrid">Use Grid</label> -->
+  <select name="skybox" id="skybox">
+    <option value="darkfield">Dark Field</option>
+    <option value="desert" selected>Desert</option>
+    <option value="icelake">Icy Lake</option>
+    <option value="range">Open Range</option>
+    <option value="skybox">Storm Clouds</option>
+  </select>
+  <label for="skybox">Background</label>
   <hr/>
   <canvas id="renderCanvas"></canvas>
   <script src="dist/bundle.js"></script>

@@ -126,9 +126,8 @@ loadButton.addEventListener("click", () => {
     babylonPromise.then(() => {
         var canvas = document.getElementById("renderCanvas");
         var engine = new BABYLON.Engine(canvas, true);
-        var gridToggle = document.getElementById("useGrid");
-        var desertToggle = document.getElementById("useDesert");
-        useGrid = gridToggle.checked;
+        //var gridToggle = document.getElementById("useGrid") as HTMLInputElement;
+        var skyboxSelect = document.getElementById("skybox");
         function createScene() {
             var scene = new BABYLON.Scene(engine);
             var camera = new BABYLON.ArcRotateCamera("Camera", Math.PI / 2, Math.PI / 2, 2, BABYLON.Vector3.Zero(), scene);
@@ -149,6 +148,22 @@ loadButton.addEventListener("click", () => {
             sphere.position.y = 0.2;
             sphere.position.x = 0.5;
             var skybox = BABYLON.MeshBuilder.CreateBox("skyBox", { size: 1000.0 }, scene);
+            function loadSkybox(name) {
+                var skyboxMaterial = new BABYLON.StandardMaterial(name, scene);
+                skyboxMaterial.backFaceCulling = false;
+                skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture(`textures/${name}`, scene);
+                skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+                skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+                skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+                return skyboxMaterial;
+            }
+            var skybox_materials = {
+                "darkfield": loadSkybox("darkfield"),
+                "desert": loadSkybox("desert"),
+                "icelake": loadSkybox("icelake"),
+                "range": loadSkybox("range"),
+                "skybox": loadSkybox("skybox")
+            };
             var desertMaterial = new BABYLON.StandardMaterial("skyBox", scene);
             desertMaterial.backFaceCulling = false;
             desertMaterial.reflectionTexture = new BABYLON.CubeTexture("textures/desert", scene);
@@ -195,25 +210,25 @@ loadButton.addEventListener("click", () => {
                 DoLines(false);
             }
             function setSkybox() {
-                skybox.material = desertToggle.checked ? desertMaterial : cloudsMaterial;
+                skybox.material = skybox_materials[skyboxSelect.value];
             }
-            desertToggle.addEventListener("change", setSkybox);
+            skyboxSelect.addEventListener("change", setSkybox);
             setSkybox();
+            //useGrid = gridToggle.checked;
             useGrid ? CreateGrid() : CreateLines();
-            gridToggle.addEventListener("change", (ev) => {
-                useGrid = gridToggle.checked;
-                if (useGrid) {
-                    // Remove the lines, add the grid
-                    linesArray.forEach(elem => elem.dispose());
-                    linesArray = [];
-                    CreateGrid();
-                }
-                else {
-                    grid.dispose();
-                    ground.dispose();
-                    CreateLines();
-                }
-            });
+            // gridToggle.addEventListener("change", (ev: Event) => {
+            //   useGrid = gridToggle.checked;
+            //   if (useGrid) {
+            //     // Remove the lines, add the grid
+            //     linesArray.forEach(elem => elem.dispose());
+            //     linesArray = [];
+            //     CreateGrid();
+            //   } else {
+            //     grid.dispose();
+            //     ground.dispose();
+            //     CreateLines();
+            //   }
+            // });
             return scene;
         }
         var scene = createScene();
