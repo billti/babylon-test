@@ -142,7 +142,11 @@ loadButton.addEventListener("click", () => {
                     new BABYLON.Color4(0, 0, 1, 1),
                     new BABYLON.Color4(1, 0, 1, 1),
                 ] }, scene);
-            box.position.y = 0.3;
+            box.position.y = 0.25;
+            var sphere = BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 0.4 }, scene);
+            sphere.position.z = 0.2;
+            sphere.position.y = 0.2;
+            sphere.position.x = 0.5;
             var skybox = BABYLON.MeshBuilder.CreateBox("skyBox", { size: 1000.0 }, scene);
             var desertMaterial = new BABYLON.StandardMaterial("skyBox", scene);
             desertMaterial.backFaceCulling = false;
