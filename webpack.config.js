@@ -25,8 +25,7 @@ module.exports = {
     externals: {
         "oimo": true,
         "cannon": true,
-        "earcut": true,
-        "babylonjs": "BABYLON"
+        "earcut": true
     },
     mode: "development"
 }
