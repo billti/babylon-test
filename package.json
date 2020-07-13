@@ -9,7 +9,8 @@
   "author": "Bill Ticehurst",
   "license": "ISC",
   "dependencies": {
-    "babylonjs": "^4.1.0"
+    "babylonjs": "^4.1.0",
+    "babylonjs-materials": "^4.1.0"
   },
   "devDependencies": {
     "ts-loader": "^8.0.0",
